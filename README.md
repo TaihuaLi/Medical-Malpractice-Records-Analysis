@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/TaihuaLi/NPDB_Data.png?label=ready&title=Ready)](https://waffle.io/TaihuaLi/NPDB_Data)
 # Data Analysis on NPDB Dataset
 
 ### Dataset Description
