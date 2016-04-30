@@ -7,6 +7,7 @@ The [NPDB Public Use Data File] (http://www.npdb.hrsa.gov/resources/publicData.j
 The NPDB Public Use Data File contains selected variables from medical malpractice payment and adverse licensure, clinical privileges, professional society membership, and Drug Enforcement Administration (DEA) reports (adverse actions) received by the NPDB concerning physicians, dentists, and other licensed health care practitioners. It also includes reports of Medicare and Medicaid exclusion actions taken by the Department of HHS Office of Inspector General.
 
 ### Team Members
+- [Taihua Li] (https://www.linkedin.com/in/taihuali)
 - [Trish Lugt] (https://www.linkedin.com/in/trishlugtu)
 - [Anthony Andras] (https://www.linkedin.com/in/anthonyandras)
 - [Mike Marre] (https://www.linkedin.com/in/michaelmarre)
