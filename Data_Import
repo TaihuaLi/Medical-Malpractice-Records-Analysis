@@ -1,0 +1,58 @@
+
+# LOAD LIBRARIES
+library(foreign)
+
+# LOAD DATA
+NPDB.full <- read.spss("NPDB1510.POR", to.data.frame = TRUE)
+
+names(NPDB.full)
+# FIELD LIST:  SEQNO, RECTYPE, REPTYPE, ORIGYEAR, WORKSTAT, WORKCTRY, HOMESTAT, HOMECTRY, LICNSTAT, LICNFELD, PRACTAGE, GRAD, ALGNNATR, ALEGATN1, ALEGATN2, OUTCOME, MALYEAR1, MALYEAR2, PAYMENT, TOTALPMT, PAYNUMBR, NUMBPRSN, PAYTYPE, PYRRLTNS, PTAGE, PTGENDER, PTTYPE, AAYEAR, AACLASS1, AACLASS2, AACLASS3, AACLASS4, AACLASS5, BASISCD1, BASISCD2, BASISCD3, BASISCD4, BASISCD5, AALENTYP, AALENGTH, AAEFYEAR, AASIGYR, TYPE, PRACTNUM, ACCRRPTS, NPMALRPT, NPLICRPT, NPCLPRPT, NPPSMRPT, NPDEARPT, NPEXCRPT, NPGARPT, NPCTMRPT, FUNDPYMT
+
+# EXPLORE DATA
+head(NPDB.full, n=1)
+summary(NPDB.full)
+
+sort(unique(NPDB.full$RECTYPE))
+sort(summary(NPDB.full$RECTYPE))
+#  Judgment or Conviction Report, 11/22/1999 and later      = 0                   
+#  Adverse Action Report (Legacy Format)                    = 51301 
+#  Malpractice Payment Report, 1/31/04 and later            = 167027    (INCLUDE)      
+#  Malpractice Payment Report, 9/1/90 to 1/31/04            = 250685    
+#  Consolidated Adverse Action Report, 11/22/1999 and later = 729253 
+
+sort(unique(NPDB.full$LICNFELD))
+sort(-summary(NPDB.full$LICNFELD))
+#  Allopathic Physician (MD)           = 425410 
+#  Physician Resident (MD)             = 3197
+#  Osteopathic Physician (DO)          = 32914
+#  Osteopathic Physician Resident (DO) = 587
+
+NPDB.exploreMPold <- subset(NPDB.full, NPDB.full$RECTYPE == "Malpractice Payment Report, 9/1/90 to 1/31/04")
+summary(NPDB.exploreMPold)
+
+NPDB.exploreMPnew <- subset(NPDBfull, NPDB.full$RECTYPE=="Malpractice Payment Report, 1/31/04 and later")
+summary(NPDB.exploreMPnew)
+
+NPDB.exploreAAR <- subset(NPDB.full, NPDB.full$RECTYPE %in% c("Adverse Action Report (Legacy Format)","Consolidated Adverse Action Report, 11/22/1999 and later"))
+summary(NPDB.exploreAAR)
+
+#CREATE NPDB SUBSET
+NPDB <- subset(NPDB.exploreMPnew, NPDB.exploreMPnew$LICNFELD %in% c("Allopathic Physician (MD)","Physician Resident (MD)","Osteopathic Physician (DO)","Osteopathic Physician Resident (DO)"),select=c("SEQNO", "ORIGYEAR", "LICNSTAT", "LICNFELD", "PRACTAGE", "GRAD", "ALGNNATR", "ALEGATN1", "OUTCOME", "MALYEAR1", "PAYMENT", "PTAGE", "PTGENDER", "PTTYPE"))
+
+# CLEANUP UNUSED DATASETS
+remove(NPDB.full)
+remove(NPDB.exploreAAR)
+remove(NPDB.exploreMPnew)
+remove(NPDB.exploreMPold)
+
+# EXPLORE NPDB
+head(NPDB, n=10)
+summary(NPDB)
+
+sort(unique(NPDB$LICNSTAT))
+sort(summary(NPDBfull$LICNSTAT))
+
+sort(unique(NPDB$ALGNNATR))
+sort(summary(NPDB$ALGNNATR))
+
+
