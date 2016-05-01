@@ -8,7 +8,7 @@ The NPDB Public Use Data File contains selected variables from medical malpracti
 
 ### Team Members
 - [Taihua Li] (https://www.linkedin.com/in/taihuali)
-- [Trish Lugt] (https://www.linkedin.com/in/trishlugtu)
+- [Trish Lugtu] (https://www.linkedin.com/in/trishlugtu)
 - [Anthony Andras] (https://www.linkedin.com/in/anthonyandras)
 - [Mike Marre] (https://www.linkedin.com/in/michaelmarre)
 
