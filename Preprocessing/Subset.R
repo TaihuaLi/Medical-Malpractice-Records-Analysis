@@ -11,29 +11,7 @@ new_dat <- new_dat[new_dat$ptgender != "U" & new_dat$pttype != "U", ] # omit unk
 new_dat <- new_dat[new_dat$alegatn1 != 899 & new_dat$alegatn1 != 999, ] # omit unclassified allegation
 new_dat <- new_dat[new_dat$alegatn2 != 899 & new_dat$alegatn2 != 999, ]
 new_dat <- new_dat[new_dat$licnstat != " ",] # omit blank category for state
-
-# create dummies for gender
-new_dat$ptgender_M <- ifelse(new_dat$ptgender == "M", 1, 0)
-new_dat$ptgender_F <- ifelse(new_dat$ptgender == "F", 1, 0)
-new_dat$ptgender <- NULL
-
-# create dummies for patient type
-new_dat$pttype_I <- ifelse(new_dat$pttype == "I", 1, 0)
-new_dat$pttype_O <- ifelse(new_dat$pttype == "O", 1, 0)
-new_dat$pttype_B <- ifelse(new_dat$pttype == "B", 1, 0)
-new_dat$pttype <- NULL
-
-# create dummies for payment as a result of.. (paytype)
-new_dat$paytype_B <- ifelse(new_dat$paytype == "B", 1, 0)
-new_dat$paytype_J <- ifelse(new_dat$paytype == "J", 1, 0)
-new_dat$paytype_S <- ifelse(new_dat$paytype == "S", 1, 0)
-new_dat$paytype_U <- ifelse(new_dat$paytype == "U", 1, 0)
-new_dat$paytype <- NULL
-
-# create dummies for number of payment (paynumbr)
-new_dat$paynumbr_M <- ifelse(new_dat$paynumbr == "M", 1, 0)
-new_dat$paynumbr_S <- ifelse(new_dat$paynumbr == "S", 1, 0)
-new_dat$paynumbr <- NULL
+new_dat <- new_dat[new_dat$paytype == "S", ] # only keep payment that is result of settlement
 
 # practitioner age group
 practAge <- new_dat$practage
@@ -145,7 +123,7 @@ fi <- as.factor(fi)
 new_dat$licnfeld <- fi
 
 # convert all into dummies except alegatn1, alegatn2
-install.packages("dummies")
+# install.packages("dummies")
 library(dummies)
 d <- dummy.data.frame(new_dat)
 head(d)
