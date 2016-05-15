@@ -6,9 +6,7 @@
 # Source: http://www.npdb.hrsa.gov/resources/publicData.jsp 
 #
 ###################################################################
-setwd("R:/Project/Code")
-
-# LOAD LIBRARIES
+setwd("~/Desktop/Projects/Practition Data/")
 library(foreign)
 library(stringr)
 
@@ -98,14 +96,20 @@ NPDB.Dx$totalPayment = round((tpnum1 + tpnum2)/2, digits=0)
 NPDB.Dx <- NPDB.Dx[!is.na(NPDB.Dx$totalPayment),]
 
 
+
 # MDage (new variable) - use practage bin mean as value 
 sort(summary(NPDB.Dx$practage))
 NPDB.Dx$MDage = as.numeric(substr(as.character(NPDB.Dx$practage),6,7)) + 5
 summary(NPDB.Dx$MDage)
 
-# MDexp (new variable) - malyear1 - (use grad bin min) 
-NPDB.Dx$MDexp <- NPDB.Dx$malyear1 - (as.numeric(substr(as.character(NPDB.Dx$grad),1,4)))
-summary(NPDB.Dx$MDexp)
+levels(NPDB.Dx$grad)
+# MDexp (new variable) = malyear1 - (use grad bin min) 
+NPDB.Dx$MDexp <- NPDB.Dx$malyear1 - (as.numeric(substr(as.character(NPDB.Dx$grad),1,4))+5)
+sort(unique(NPDB.Dx$malyear1))
+
+head(NPDB.Dx)
+NPDB.Dx <- NPDB.Dx[NPDB.Dx$MDexp >= 0,]
+
 
 # outcome - outcomes are an ordered list representing harm scale, we can use as numerical values
 summary(NPDB.Dx$outcome)
@@ -126,11 +130,37 @@ NPDB.Dx$a2delayInDx <- ifelse(NPDB.Dx$alegatn2 == "Delay in Diagnosis",1,0)
 NPDB.Dx$a2failToDx <- ifelse(NPDB.Dx$alegatn2 == "Failure to Diagnose",1,0)
 NPDB.Dx$a2failToTest <- ifelse(NPDB.Dx$alegatn2 ==  "Failure to Order Appropriate Test",1,0)
 
+NPDB.Dx$a2delayInTx[is.na(NPDB.Dx$a2delayInTx)] <- 0
+NPDB.Dx$a2failToDx[is.na(NPDB.Dx$a2failToDx)] <- 0
+NPDB.Dx$a2failToTx[is.na(NPDB.Dx$a2failToTx)] <- 0
+NPDB.Dx$a2failToTest[is.na(NPDB.Dx$a2failToTest)] <- 0
+NPDB.Dx$a2delayInDx[is.na(NPDB.Dx$a2delayInDx)] <- 0
+
+summary(NPDB.Dx)
+
 # ptage - ????
-NPDB.Dx$ptagestr = as.character.factor(NPDB.Dx$ptage)
+summary(NPDB.Dx$ptage)
+NPDB.Dx$ptagestr = as.character(NPDB.Dx$ptage)
 if(is.numeric(substr(NPDB.Dx$ptagestr,6,7))) NPDB.Dx$patientAge <- as.numeric(substr(as.character(NPDB.Dx$ptagestr),6,7)) + 5
 if(NPDB.Dx$ptagestr == "Age under 1 year") NPDB.Dx$patientAge <- 0
 if(NPDB.Dx$ptagestr == "Ages 1 through 9") NPDB.Dx$patientAge <- 5
+summary(NPDB.Dx$patientAge)
+
+patientAge <- as.character(NPDB.Dx$ptage)
+patientAge[patientAge=="Age under 1 year"] <- 0
+patientAge[patientAge=="Ages 1 through 9"] <- 5
+patientAge[patientAge=="Ages 10 through 19"] <- 15
+patientAge[patientAge=="Ages 20 through 29"] <- 25
+patientAge[patientAge=="Ages 30 through 39"] <- 35
+patientAge[patientAge=="Ages 40 through 49"] <- 45
+patientAge[patientAge=="Ages 50 through 59"] <- 55
+patientAge[patientAge=="Ages 60 through 69"] <- 65
+patientAge[patientAge=="Ages 70 through 79"] <- 75
+patientAge[patientAge=="Ages 80 through 89"] <- 85
+patientAge[patientAge=="Ages 90 through 99"] <- 95
+patientAge <- as.numeric(patientAge)
+NPDB.Dx$patientAge <- patientAge
+
 summary(NPDB.Dx$patientAge)
 
 # ptgender
@@ -144,7 +174,6 @@ NPDB.Dx$inpatient <- ifelse(NPDB.Dx$pttype %in% c("I","B"),1,0)
 NPDB.Dx$outpatient <- ifelse(NPDB.Dx$pttype %in% c("O","B"),1,0)
 
 fields = c("totalPayment", "MDage", "MDexp", "outcomeScale", "patientAge", "ptFemale", "ptMale", "inpatient", "outpatient", "a1failToDx", "a1delayInDx", "a1wrongDx", "a1failToOrder", "a1radError", "a2failToTx", "a2delayInTx", "a2delayInDx", "a2failToDx", "a2failToTest")
-
 summary(NPDB.Dx)
 
 # Get Regions
@@ -157,6 +186,7 @@ region4 = c("Texas", "Oklahoma", "Arkansas", "Louisiana", "Kentucky", "Tennessee
 region5 = c("Maine","Vermont","New Hampshire","Massachusetts","Connecticut","Rhode Island","New York","Pennsylvania","New Jersey")
 region6 = c("West Virginia", "Maryland", "Delaware", "Virginia", "North Carolina", "South Carolina", "Georgia", "Florida")
 region16 = append(region1,region6)
+
 NPDB.reg1 <- subset(NPDB.Dx, NPDB.Dx$licnstat %in% region1, select = fields)
 NPDB.reg2 <- subset(NPDB.Dx, NPDB.Dx$licnstat %in% region2, select = fields)
 NPDB.reg3 <- subset(NPDB.Dx, NPDB.Dx$licnstat %in% region3, select = fields)
@@ -165,7 +195,9 @@ NPDB.reg5 <- subset(NPDB.Dx, NPDB.Dx$licnstat %in% region5, select = fields)
 NPDB.reg6 <- subset(NPDB.Dx, NPDB.Dx$licnstat %in% region6, select = fields)
 NPDB.reg16 <- subset(NPDB.Dx, NPDB.Dx$licnstat %in% region16, select = fields)
 
-summary 
+head(NPDB.reg5)
+
+summary(NPDB.reg5)
 # Region Counts
 # region 1: 3643 
 # region 2: 2082
