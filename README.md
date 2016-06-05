@@ -12,6 +12,6 @@ The NPDB Public Use Data File contains selected variables from medical malpracti
 - [Mike Marre] (https://www.linkedin.com/in/michaelmarre)
 - [Zengyi Zhu] (https://www.linkedin.com/in/zengyizhu)
 
-Note: most of project code are written in [R](https://www.r-project.org) or [Python 3.5](https://www.python.org)
+Note: this project code is in [R](https://www.r-project.org)
 
 ![alt text](http://www.cdm.depaul.edu/ipd/PublishingImages/hero-data-science-for-business-@2x.jpg)
