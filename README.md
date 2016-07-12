@@ -22,6 +22,6 @@ Finally, our team split into two subteams to tackle analyses in parallel with ea
 - [Mike Marre] (https://www.linkedin.com/in/michaelmarre)
 - [Zengyi Zhu] (https://www.linkedin.com/in/zengyizhu)
 
-Note: this project code is in [R](https://www.r-project.org)
+Note: this project is coded in [R](https://www.r-project.org)
 
 ![alt text](http://www.cdm.depaul.edu/ipd/PublishingImages/hero-data-science-for-business-@2x.jpg)
